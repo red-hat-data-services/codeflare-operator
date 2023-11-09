@@ -18,18 +18,19 @@ Follow these steps in order to migrate to using the updated RHODS Data Science C
         apiVersion: operators.coreos.com/v1alpha1
         kind: Subscription
         metadata:
-        name: opendatahub-operator
-        namespace: openshift-operators
+          name: opendatahub-operator
+          namespace: openshift-operators
         spec:
-        channel: fast
-        name: opendatahub-operator
-        source: community-operators
-        sourceNamespace: openshift-marketplace
+          channel: fast
+          name: opendatahub-operator
+          source: community-operators
+          sourceNamespace: openshift-marketplace
         EOF
     ```
 4. Enable the Data Science Cluster:
     - Navigate to Home -> Search -> Resources and search for the default DataScienceCluster CRD and enable CodeFlare and Ray by marking them as `managementState: Managed`.
-5. Remove any unnecessary CRDs
+5. Remove resources from the previous installation that are no longer needed.
     ```bash
     oc delete crd instascales.codeflare.codeflare.dev mcads.codeflare.codeflare.dev quotasubtrees.ibm.com appwrappers.mcad.ibm.com schedulingspecs.mcad.ibm.com
+    oc delete deployment kuberay-operator -n opendatahub
     ```
