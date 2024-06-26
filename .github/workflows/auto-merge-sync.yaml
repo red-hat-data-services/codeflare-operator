@@ -1,0 +1,24 @@
+# Workflow is meant to run in the red-hat-data-services/codeflare-operator repo
+name: Auto-Merge-Sync
+on:
+  workflow_dispatch:
+
+jobs:
+  trigger-auto-merge-sync:
+    runs-on: ubuntu-latest
+    steps:
+    - name: upstream-odh-auto-merge
+      run: |
+        gh workflow run upstream-auto-merge.yaml --repo github.com/red-hat-data-services/rhods-devops-infra --ref main --field repositories=codeflare-upstream
+      env:
+        GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+      shell:
+        bash
+    - name: odh-rhds-auto-merge
+      if: ${{ steps.upstream-odh-auto-merge.outcome == 'success' }}
+      run: |
+        gh workflow run upstream-auto-merge.yaml --repo github.com/red-hat-data-services/rhods-devops-infra --ref main --field repositories=codeflare-downstream
+      env:
+        GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+      shell:
+        bash
