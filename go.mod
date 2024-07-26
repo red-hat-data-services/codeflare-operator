@@ -1,6 +1,6 @@
 module github.com/project-codeflare/codeflare-operator
 
-go 1.21
+go 1.20
 
 require (
 	github.com/onsi/gomega v1.27.10
