@@ -3,6 +3,6 @@ contentOrigin:
     - ubi.repo
 packages:
   - git
-  - gcc 
-  - make 
+  - gcc
+  - make
   - openssl-devel
