@@ -228,13 +228,13 @@ arches:
     name: gzip
     evr: 1.9-13.el8_5
     sourcerpm: gzip-1.9-13.el8_5.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/x86_64/baseos/os/Packages/k/kernel-headers-4.18.0-553.36.1.el8_10.x86_64.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/x86_64/baseos/os/Packages/k/kernel-headers-4.18.0-553.37.1.el8_10.x86_64.rpm
     repoid: ubi-8-for-x86_64-baseos-rpms
-    size: 12399016
-    checksum: sha256:7ba5e33a7dfa183de79d80ee2f11cd32f05a213b40c872db216da0e6356f403b
+    size: 12399612
+    checksum: sha256:0bc0963aafe2bae489e0677f4d3715e43a17bb95db11989911f2beafae3eb6fb
     name: kernel-headers
-    evr: 4.18.0-553.36.1.el8_10
-    sourcerpm: kernel-4.18.0-553.36.1.el8_10.src.rpm
+    evr: 4.18.0-553.37.1.el8_10
+    sourcerpm: kernel-4.18.0-553.37.1.el8_10.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/x86_64/baseos/os/Packages/k/keyutils-libs-devel-1.5.10-9.el8.x86_64.rpm
     repoid: ubi-8-for-x86_64-baseos-rpms
     size: 49216
