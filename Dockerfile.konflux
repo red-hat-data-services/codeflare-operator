@@ -1,7 +1,26 @@
 # Build arguments
 ARG SOURCE_CODE=.
 
-FROM registry.access.redhat.com/ubi8/go-toolset:1.22@sha256:cb6d0d225da06acffdaea76081e9396e104b2e3cfb670c9d99cc3352761953c2 AS builder
+# BEGIN -- workaround lack of go-toolset for golang 1.23
+ARG GOLANG_IMAGE=registry-proxy.engineering.redhat.com/rh-osbs/openshift-golang-builder@sha256:b848cf648a383b6e207ebd150afc7e65a90efe0d7734f4f6d2767144d58d68d0
+FROM ${GOLANG_IMAGE} AS golang
+
+FROM registry.access.redhat.com/ubi8/ubi@sha256:fd93fc09dc09f3d3edae30577460a979bb52df351b826ef3a5c02ec8213b433a AS builder
+ARG GOLANG_VERSION=1.23.0
+
+# Install system dependencies
+RUN dnf upgrade -y && dnf install -y \
+    gcc \
+    make \
+    openssl-devel \
+    git \
+    && dnf clean all && rm -rf /var/cache/yum
+
+# Install Go
+ENV PATH=/usr/local/go/bin:$PATH
+
+COPY --from=golang /usr/lib/golang /usr/local/go
+# End of Go versioning workaround
 
 WORKDIR /workspace
 
