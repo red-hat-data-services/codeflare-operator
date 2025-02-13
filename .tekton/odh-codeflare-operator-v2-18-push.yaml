@@ -1,4 +1,4 @@
-# comment for dummy trigger1
+# comment for dummy trigger2
 apiVersion: tekton.dev/v1
 kind: PipelineRun
 metadata:
