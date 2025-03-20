@@ -4,7 +4,7 @@ ARG SOURCE_CODE=.
 # BEGIN -- workaround lack of go-toolset for golang 1.23
 FROM brew.registry.redhat.io/rh-osbs/openshift-golang-builder:rhel_8_golang_1.23@sha256:0a070e4a8f2698b6aba3630a49eb995ff1b0a182d0c5fa264888acf9d535f384 AS golang
 
-FROM registry.access.redhat.com/ubi8/ubi@sha256:e4b9bc5173fe3c1d471fad7b01e7545ae549a3d7f73e125a3f47c05b634ab4a1 AS builder
+FROM registry.access.redhat.com/ubi8/ubi@sha256:f2fc79fc75667bcdef182127a340ff71d852d7f72ebdf1d25959a85dd784fae5 AS builder
 ARG GOLANG_VERSION=1.23.0
 
 # Install system dependencies
