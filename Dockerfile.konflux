@@ -2,9 +2,9 @@
 ARG SOURCE_CODE=.
 
 # BEGIN -- workaround lack of go-toolset for golang 1.23
-FROM brew.registry.redhat.io/rh-osbs/openshift-golang-builder:rhel_8_golang_1.23@sha256:0a070e4a8f2698b6aba3630a49eb995ff1b0a182d0c5fa264888acf9d535f384 AS golang
+FROM registry.access.redhat.com/ubi9/go-toolset:1.23@sha256:8a634d63713a073d7a1e086a322e57b148eef9620834fc8266df63d9294dff1b AS golang
 
-FROM registry.access.redhat.com/ubi8/ubi@sha256:3e6410626323e6f11af16b28b8e73faa4799fe0dbdb4b1cfbf6f029c34b038f3 AS builder
+FROM registry.access.redhat.com/ubi9/ubi@sha256:ea57285741f007e83f2ee20423c20b0cbcce0b59cc3da027c671692cc7efe4dd AS builder
 ARG GOLANG_VERSION=1.23.0
 
 # Install system dependencies
@@ -12,6 +12,7 @@ RUN dnf upgrade -y && dnf install -y \
     gcc \
     make \
     openssl-devel \
+    krb5-devel \
     git \
     && dnf clean all && rm -rf /var/cache/yum
 
@@ -42,9 +43,9 @@ RUN git config --global --add safe.directory /workspace
 # Build
 USER root
 
-RUN CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -tags strictfipsruntime -a -o manager main.go
+RUN CGO_ENABLED=1 GOOS=linux GOARCH=amd64 GOEXPERIMENT=strictfipsruntime go build -tags strictfipsruntime -a -o manager main.go
 
-FROM registry.access.redhat.com/ubi8/ubi-minimal@sha256:b2a1bec3dfbc7a14a1d84d98934dfe8fdde6eb822a211286601cf109cbccb075
+FROM registry.access.redhat.com/ubi9/ubi-minimal@sha256:ac61c96b93894b9169221e87718733354dd3765dd4a62b275893c7ff0d876869
 WORKDIR /
 COPY --from=builder /workspace/manager .
 
