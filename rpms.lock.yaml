@@ -228,13 +228,13 @@ arches:
     name: gzip
     evr: 1.9-13.el8_5
     sourcerpm: gzip-1.9-13.el8_5.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/x86_64/baseos/os/Packages/k/kernel-headers-4.18.0-553.50.1.el8_10.x86_64.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/x86_64/baseos/os/Packages/k/kernel-headers-4.18.0-553.51.1.el8_10.x86_64.rpm
     repoid: ubi-8-for-x86_64-baseos-rpms
-    size: 12408768
-    checksum: sha256:297476ad550a106bd48efeb9486063e5730053903f40ff6f8bf83c3e57bd0a84
+    size: 12409036
+    checksum: sha256:6e51ebdaaf0057f6f6bbfc4154f99a15b444b7018995a9afbd8219b9a9492201
     name: kernel-headers
-    evr: 4.18.0-553.50.1.el8_10
-    sourcerpm: kernel-4.18.0-553.50.1.el8_10.src.rpm
+    evr: 4.18.0-553.51.1.el8_10
+    sourcerpm: kernel-4.18.0-553.51.1.el8_10.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/x86_64/baseos/os/Packages/k/keyutils-libs-devel-1.5.10-9.el8.x86_64.rpm
     repoid: ubi-8-for-x86_64-baseos-rpms
     size: 49216
@@ -783,7 +783,7 @@ arches:
     sourcerpm: zlib-1.2.11-25.el8.src.rpm
   source: []
   module_metadata:
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/x86_64/appstream/os/repodata/c971f7c37bf8ef142dc5bb420156e61ad6ab4c57dc1b27f42b7fdb93fa40c005-modules.yaml.gz
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi8/8/x86_64/appstream/os/repodata/474e327dd846d3ac01daad5dfd08bfd27df9a56f85d26692414df8068abc7538-modules.yaml.gz
     repoid: ubi-8-for-x86_64-appstream-rpms
-    size: 60309
-    checksum: sha256:c971f7c37bf8ef142dc5bb420156e61ad6ab4c57dc1b27f42b7fdb93fa40c005
+    size: 59708
+    checksum: sha256:474e327dd846d3ac01daad5dfd08bfd27df9a56f85d26692414df8068abc7538
