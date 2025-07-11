@@ -32,3 +32,6 @@ bundle.Dockerfile
 
 # VSCode
 .vscode
+
+# VSCode History Extension
+.history/
