@@ -11,6 +11,7 @@ metadata:
       event == "push" 
       && target_branch == "rhoai-2.24"
       && ( !".tekton/**".pathChanged() || ".tekton/odh-codeflare-operator-v2-24-push.yaml".pathChanged() )
+  # retry konflux build due to RHOAIENG-31914
   creationTimestamp:
   labels:
     appstudio.openshift.io/application: rhoai-v2-24
