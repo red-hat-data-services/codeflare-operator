@@ -32,7 +32,8 @@ ENTRYPOINT ["/manager"]
 
 LABEL com.redhat.component="odh-codeflare-operator-container" \
       description="Manages lifecycle of MCAD and InstaScale custom resources and associated Kubernetes resources" \
-      name="managed-open-data-hub/odh-codeflare-operator-container-rhel8" \
+      name="rhoai/odh-codeflare-operator-rhel9" \
+      cpe="cpe:/a:redhat:openshift_ai:2.22::el9" \
       summary="odh-codeflare-operator-container" \
       maintainer="['managed-open-data-hub@redhat.com']" \
       io.openshift.expose-services="" \
