@@ -393,10 +393,10 @@ func constructRayCluster(_ Test, namespace *corev1.Namespace, localQueueName str
 
 	// Add label if raycluster is not wrapped in the app wrapper
 	if !isWrappedInAppWrapper {
-		if raycluster.ObjectMeta.Labels == nil {
-			raycluster.ObjectMeta.Labels = make(map[string]string)
+		if raycluster.Labels == nil {
+			raycluster.Labels = make(map[string]string)
 		}
-		raycluster.ObjectMeta.Labels["kueue.x-k8s.io/queue-name"] = localQueueName
+		raycluster.Labels["kueue.x-k8s.io/queue-name"] = localQueueName
 	}
 
 	if accelerator.IsGpu() {
