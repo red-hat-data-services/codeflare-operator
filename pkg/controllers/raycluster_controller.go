@@ -132,7 +132,7 @@ func (r *RayClusterReconciler) Reconcile(ctx context.Context, req ctrl.Request) 
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
-	if cluster.ObjectMeta.DeletionTimestamp.IsZero() {
+	if cluster.DeletionTimestamp.IsZero() {
 		if !controllerutil.ContainsFinalizer(cluster, oAuthFinalizer) {
 			logger.Info("Add a finalizer", "finalizer", oAuthFinalizer)
 			controllerutil.AddFinalizer(cluster, oAuthFinalizer)
@@ -143,7 +143,7 @@ func (r *RayClusterReconciler) Reconcile(ctx context.Context, req ctrl.Request) 
 			}
 		}
 	} else if controllerutil.ContainsFinalizer(cluster, oAuthFinalizer) {
-		err := client.IgnoreNotFound(r.Client.Delete(
+		err := client.IgnoreNotFound(r.Delete(
 			ctx,
 			&rbacv1.ClusterRoleBinding{
 				ObjectMeta: metav1.ObjectMeta{
@@ -284,7 +284,7 @@ func (r *RayClusterReconciler) Reconcile(ctx context.Context, req ctrl.Request) 
 	if r.IsOpenShift {
 		dsci := &dsciv1.DSCInitialization{}
 
-		err := r.Client.Get(ctx, client.ObjectKey{Name: defaultDSCINamespace}, dsci)
+		err := r.Get(ctx, client.ObjectKey{Name: defaultDSCINamespace}, dsci)
 		if errors.IsNotFound(err) {
 			kubeRayNamespaces = []string{odhNamespace, rhdsAppsNamespace}
 		} else if err != nil {
