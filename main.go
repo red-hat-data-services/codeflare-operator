@@ -33,7 +33,6 @@ import (
 	awctrl "github.com/project-codeflare/appwrapper/pkg/controller"
 	rayv1 "github.com/ray-project/kuberay/ray-operator/apis/ray/v1"
 	"go.uber.org/zap/zapcore"
-	"golang.org/x/exp/slices"
 
 	corev1 "k8s.io/api/core/v1"
 	networkingv1 "k8s.io/api/networking/v1"
@@ -440,9 +439,12 @@ func isAPIAvailable(ctx context.Context, mgr ctrl.Manager, apiName string) bool 
 	crdList, err := crdClient.ApiextensionsV1().CustomResourceDefinitions().List(ctx, metav1.ListOptions{})
 	exitOnError(err, "unable to list CRDs")
 
-	return slices.ContainsFunc(crdList.Items, func(crd apiextensionsv1.CustomResourceDefinition) bool {
-		return crd.Name == apiName
-	})
+	for i := range crdList.Items {
+		if crdList.Items[i].Name == apiName {
+			return true
+		}
+	}
+	return false
 }
 
 func waitForAPI(ctx context.Context, mgr ctrl.Manager, apiName string, action func()) {
@@ -453,9 +455,14 @@ func waitForAPI(ctx context.Context, mgr ctrl.Manager, apiName string, action fu
 	exitOnError(err, "unable to list CRDs")
 
 	// If API is already available, just invoke action
-	if slices.ContainsFunc(crdList.Items, func(crd apiextensionsv1.CustomResourceDefinition) bool {
-		return crd.Name == apiName
-	}) {
+	apiFound := false
+	for i := range crdList.Items {
+		if crdList.Items[i].Name == apiName {
+			apiFound = true
+			break
+		}
+	}
+	if apiFound {
 		action()
 		return
 	}
@@ -483,13 +490,20 @@ func waitForAPI(ctx context.Context, mgr ctrl.Manager, apiName string, action fu
 				exitOnError(apierrors.FromObject(event.Object), fmt.Sprintf("error watching for API %v", apiName))
 
 			case watch.Added, watch.Modified:
-				if crd := event.Object.(*apiextensionsv1.CustomResourceDefinition); crd.Name == apiName &&
-					slices.ContainsFunc(crd.Status.Conditions, func(condition apiextensionsv1.CustomResourceDefinitionCondition) bool {
-						return condition.Type == apiextensionsv1.Established && condition.Status == apiextensionsv1.ConditionTrue
-					}) {
-					setupLog.Info(fmt.Sprintf("API %v installed, invoking deferred action", apiName))
-					action()
-					return
+				crd := event.Object.(*apiextensionsv1.CustomResourceDefinition)
+				if crd.Name == apiName {
+					established := false
+					for i := range crd.Status.Conditions {
+						if crd.Status.Conditions[i].Type == apiextensionsv1.Established && crd.Status.Conditions[i].Status == apiextensionsv1.ConditionTrue {
+							established = true
+							break
+						}
+					}
+					if established {
+						setupLog.Info(fmt.Sprintf("API %v installed, invoking deferred action", apiName))
+						action()
+						return
+					}
 				}
 			}
 		}
